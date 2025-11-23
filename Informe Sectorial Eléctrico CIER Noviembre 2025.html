@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puesta a punto sobre noticias del mes sobre el sector eléctrico regional - Noviembre 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 40vh;
+            max-height: 450px;
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover {
+            color: #2563eb;
+        }
+        .nav-link.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+        }
+        .tab-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tab-button.active {
+            background-color: #1e40af;
+            color: white;
+        }
+    </style>
+</head>
+<body class="text-gray-800 smooth-scroll">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Sector Eléctrico Regional</h1>
+                <p class="text-xs text-gray-500">Autor: Coordinación Internacional del Área Corporativa | Fuente: Flash CIER</p>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link text-gray-600 font-medium pb-1">Panorama</a>
+                <a href="#country-analysis" class="nav-link text-gray-600 font-medium pb-1">Análisis País</a>
+                <a href="#tech-trends" class="nav-link text-gray-600 font-medium pb-1">Tecnologías</a>
+                <a href="#interconnection-analysis" class="nav-link text-gray-600 font-medium pb-1">Interconexiones</a>
+                <a href="#insights" class="nav-link text-gray-600 font-medium pb-1">Alertas</a>
+            </div>
+             <div class="md:hidden">
+                <select id="mobile-nav" class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="#overview">Panorama</option>
+                    <option value="#country-analysis">Análisis País</option>
+                    <option value="#tech-trends">Tecnologías</option>
+                    <option value="#interconnection-analysis">Interconexiones</option>
+                    <option value="#insights">Alertas</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="overview" class="mb-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-blue-900 mb-2">Panorama del Sector Eléctrico - Noviembre 2025</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Análisis de las tendencias, inversiones y desafíos que definen el futuro energético de Latinoamérica y el Caribe.</p>
+            </div>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-3 text-blue-800">Sudamérica</h3>
+                    <p class="text-gray-700">La región vive una actividad regulatoria frenética. Brasil lidera la inversión con subastas masivas de transmisión y su primera licitación exclusiva para baterías. Chile se consolida como laboratorio de almacenamiento, proyectando más de 8 GW al 2027. Argentina avanza hacia la desregulación total del mercado mayorista. Colombia libera capacidad de red pero sufre el fracaso de su subasta eólica offshore.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                     <h3 class="text-xl font-semibold mb-3 text-teal-800">Centroamérica, Caribe y Otros</h3>
+                     <p class="text-gray-700">La seguridad energética y la planificación estatal marcan la agenda. México impone una planeación vinculante con una convocatoria de 6.000 MW renovables privados. Guatemala avanza en generación pero fracasa en transmisión. República Dominicana acelera el almacenamiento obligatorio tras un colapso sistémico. Costa Rica y Panamá buscan modernizar sus marcos legales con apoyo multilateral.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-center mb-4 text-gray-700">Países más Mencionados</h3>
+                    <div class="chart-container">
+                        <canvas id="countriesChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-center mb-4 text-gray-700">Tecnologías Destacadas</h3>
+                    <div class="chart-container">
+                        <canvas id="technologiesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="country-analysis" class="mb-12 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">Retos y Oportunidades por País</h2>
+             <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center mb-8">Seleccione un país para explorar en profundidad las noticias, alertas y oportunidades más relevantes. Este panel le permite acceder a un resumen de la situación actual, los proyectos en marcha y los desafíos regulatorios y ambientales.</p>
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="mb-6">
+                    <label for="countrySelector" class="block mb-2 text-sm font-medium text-gray-900">Seleccione un país:</label>
+                    <select id="countrySelector" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    </select>
+                </div>
+                <div id="country-details">
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-trends" class="mb-12 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">Pulso de la Expansión y Negocios</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center mb-8">Visualización de las principales áreas de inversión y los modelos de negocio emergentes. El incremento de la generación renovable y la necesidad de modernizar la transmisión son las tendencias dominantes, reflejando el camino hacia una matriz más limpia y resiliente.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-center mb-4 text-gray-700">Señales de Expansión del Sistema</h3>
+                     <div class="chart-container">
+                         <canvas id="expansionChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-center mb-4 text-gray-700">Modelos de Negocio en Foco</h3>
+                    <div class="chart-container">
+                        <canvas id="businessModelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="interconnection-analysis" class="mb-12 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">6.2 Análisis de Proyectos de Interconexión</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center mb-8">La integración regional a través de proyectos de interconexión es un pilar fundamental para la seguridad, estabilidad y descarbonización del suministro eléctrico en América Latina y el Caribe.</p>
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-800">Interconexión Colombia-Panamá</h3>
+                        <p class="text-gray-700">Este enlace estratégico conectará por primera vez los sistemas eléctricos de Sudamérica y Centroamérica. El proyecto avanza hacia su materialización para 2028, permitiendo a Colombia exportar excedentes eólicos de la Guajira y a Panamá acceder a energía firme y competitiva.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-800">Interconexión Ecuador-Perú (500 kV)</h3>
+                        <p class="text-gray-700">Ecuador impulsa reformas normativas urgentes para concretar la línea de transmisión de 500 kV. Este proyecto, financiado por organismos multilaterales, es crucial para la seguridad energética ecuatoriana ante periodos de estiaje severo.</p>
+                    </div>
+                     <div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-800">Interconexión Brasil-Bolivia</h3>
+                        <p class="text-gray-700">Se proyectan inversiones de USD 1.300 millones para fortalecer la interconexión eléctrica y gasífera, buscando aprovechar la complementariedad estacional entre la hidroelectricidad brasileña y la generación térmica a gas de Bolivia.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-800">Interconexión República Dominicana-Puerto Rico (Proyecto Hostos)</h3>
+                        <p class="text-gray-700">Propuesta disruptiva para una interconexión submarina de 700 MW. Busca romper el aislamiento energético histórico de Puerto Rico, mejorando su resiliencia ante huracanes y reduciendo costos de generación mediante economías de escala.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="insights" class="pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">Alertas Regulatorias y Ambientales</h2>
+             <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center mb-8">Un vistazo a los principales movimientos normativos que impactan al sector. Desde reformas estructurales de mercado hasta nuevas exigencias ambientales, esta sección resume los cambios que los actores del sector deben monitorear.</p>
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div>
+                        <h4 class="text-xl font-semibold mb-3 text-blue-800">Alertas Regulatorias</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                             <li><b>Argentina:</b> Resolución 400/2025 desregula el MEM, eliminando rol de CAMMESA en combustibles.</li>
+                             <li><b>Brasil:</b> Aprobación de MP 1.304 para apertura del mercado libre y consulta pública para subasta BESS.</li>
+                             <li><b>México:</b> Nuevas disposiciones (DACGs) para permisos de generación bajo planeación vinculante.</li>
+                             <li><b>Perú:</b> Resolución que obliga a renovables a prestar servicios de regulación de frecuencia.</li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h4 class="text-xl font-semibold mb-3 text-teal-800">Alertas Normativas Ambientales</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                             <li><b>Colombia:</b> Decreto 1186/2025 crea la Licencia Ambiental Eólica con Diseño Optimizado.</li>
+                             <li><b>Brasil:</b> Polémica licencia de IBAMA para perforación petrolera en el Margen Ecuatorial.</li>
+                             <li><b>México:</b> Exigencia de Manifestación de Impacto Ambiental previa para convocatoria de generación.</li>
+                             <li><b>Panamá:</b> Debate ambiental sobre posible reapertura de mina Cobre Panamá y auditorías.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-4 text-center">
+            <p>&copy; 2025 Informe Interactivo del Sector Eléctrico.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const data = {
+                countries: [
+                    { name: 'Brasil', mentions: 95 },
+                    { name: 'Chile', mentions: 82 },
+                    { name: 'Colombia', mentions: 78 },
+                    { name: 'México', mentions: 65 },
+                    { name: 'Perú', mentions: 45 },
+                    { name: 'Argentina', mentions: 38 },
+                    { name: 'Rep. Dominicana', mentions: 22 },
+                    { name: 'Guatemala', mentions: 15 },
+                    { name: 'Paraguay', mentions: 12 },
+                    { name: 'Ecuador', mentions: 12 },
+                    { name: 'Costa Rica', mentions: 10 },
+                    { name: 'Panamá', mentions: 9 },
+                    { name: 'Honduras', mentions: 8 },
+                    { name: 'Guyana', mentions: 6 },
+                    { name: 'El Salvador', mentions: 5 }
+                ],
+                technologies: [
+                    { name: 'Solar FV', mentions: 185 },
+                    { name: 'Almacenamiento', mentions: 142 },
+                    { name: 'Transmisión', mentions: 115 },
+                    { name: 'Eólica', mentions: 88 },
+                    { name: 'Gen. Distribuida', mentions: 62 },
+                    { name: 'Hidroeléctrica', mentions: 55 },
+                    { name: 'Térmica (Gas)', mentions: 48 },
+                    { name: 'Hidrógeno Verde', mentions: 35 },
+                    { name: 'Mov. Eléctrica', mentions: 28 },
+                    { name: 'Eólica Offshore', mentions: 12 },
+                    { name: 'Geotermia', mentions: 8 }
+                ],
+                expansion: [
+                    { label: 'Renovables (Utility)', value: 85 },
+                    { label: 'Transmisión', value: 70 },
+                    { label: 'Modernización Redes', value: 50 },
+                    { label: 'Interconexión', value: 20 },
+                ],
+                businessModels: [
+                    { label: 'Licitaciones/Subastas', value: 90 },
+                    { label: 'PPA Bilaterales', value: 75 },
+                    { label: 'Generación Distribuida', value: 60 },
+                    { label: 'Storage as a Service', value: 40 },
+                    { label: 'Autoabastecimiento', value: 45 },
+                ],
+                countryDetails: {
+                    'Brasil': {
+                        summary: `
+                            <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                            <p class="text-gray-700 mb-3">Brasil lidera la inversión regional con subastas masivas de transmisión y prepara su primera licitación exclusiva para baterías. La congestión de la red y el 'curtailment' son desafíos críticos.</p>
+                            <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                             <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Subasta LRCAP 2026 para BESS.</li>
+                                <li>Inversiones masivas en líneas de transmisión.</li>
+                                <li>Desarrollo de Hubs de Data Centers en el Nordeste.</li>
+                            </ul>
+                            <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                             <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Altos niveles de 'curtailment' afectando ingresos.</li>
+                                <li>Incertidumbre por nuevo impuesto a dividendos.</li>
+                            </ul>
+                        `,
+                    },
+                     'Chile': {
+                        summary: `
+                            <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                            <p class="text-gray-700 mb-3">Líder regional en almacenamiento (BESS), proyectando más de 8 GW al 2027. Enfrenta un escándalo regulatorio por errores en tarifas de transmisión.</p>
+                            <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                             <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Mercado de almacenamiento y servicios complementarios.</li>
+                                <li>Proyectos de transmisión HVDC (Kimal-Lo Aguirre).</li>
+                                <li>Demanda de energía verde para minería (cobre y litio).</li>
+                            </ul>
+                            <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                             <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Incertidumbre política por error tarifario.</li>
+                                <li>Lentitud crónica en permisos ("permisología").</li>
+                            </ul>
+                        `,
+                    },
+                    'Colombia': {
+                        summary: `
+                            <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                            <p class="text-gray-700 mb-3">Momentos de contraste: libera capacidad de red administrativa pero fracasa en la subasta eólica offshore. Enfrenta riesgo de déficit de gas y energía firme.</p>
+                            <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                             <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Nuevos puntos de conexión liberados para proyectos viables.</li>
+                                <li>Adquisición de portafolios solares (ej. Ecopetrol).</li>
+                            </ul>
+                            <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                             <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Riesgo de déficit de energía y gas natural.</li>
+                                <li>Crisis financiera de distribuidoras (intervención Air-e).</li>
+                            </ul>
+                        `,
+                    },
+                    'México': {
+                        summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Nuevo plan PRODESEN con planeación vinculante. Convocatoria para 6.000 MW de renovables privados bajo reglas estrictas. Fuerte demanda por nearshoring.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Participación en convocatoria de 6 GW.</li>
+                               <li>Demanda de energía para Data Centers y manufactura.</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Incertidumbre sobre reglas secundarias.</li>
+                               <li>Tensiones comerciales por restricciones del T-MEC.</li>
+                           </ul>
+                       `,
+                   },
+                   'Argentina': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Giro drástico hacia la desregulación del mercado mayorista (Resolución 400/2025). Eliminación de intermediación de CAMMESA y privatización de hidroeléctricas.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Contratos directos en el Mercado a Término (MATER).</li>
+                               <li>Adquisición de activos en privatización.</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Adaptación al nuevo esquema de precios libres.</li>
+                               <li>Riesgo de volatilidad en costos de generación.</li>
+                           </ul>
+                       `,
+                   },
+                   'Perú': {
+                        summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Reformas técnicas obligan a renovables a prestar servicios de frecuencia. Apertura del mercado libre a MYPEs. Alerta por retrasos en transmisión.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Inversión en transmisión y renovables en el sur.</li>
+                               <li>Nuevos clientes libres (MYPEs).</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Congestión de redes proyectada al 2033.</li>
+                               <li>Costos adicionales por requisitos de regulación de frecuencia.</li>
+                           </ul>
+                       `,
+                   },
+                    'Rep. Dominicana': {
+                        summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Aceleración de baterías obligatorias tras colapso sistémico (blackout). Plan de expansión térmica para dotar de inercia al sistema.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Proyectos de almacenamiento BESS.</li>
+                               <li>Interconexión submarina con Puerto Rico.</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Fragilidad y baja inercia del sistema eléctrico.</li>
+                               <li>Saturación de redes de distribución.</li>
+                           </ul>
+                       `,
+                   },
+                   'Guatemala': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Avanza con licitación de generación PEG-5 (1.400 MW) pero declara desierta la licitación de transmisión PET-3.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Participación en licitación PEG-5.</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Riesgo de congestión y vertimientos por falta de transmisión.</li>
+                           </ul>
+                       `,
+                   },
+                   'Paraguay': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Apuesta por la expansión de Data Centers (Hive, Sollar Machine) e hidrógeno verde (Proyecto Villeta) aprovechando excedentes hidroeléctricos.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Desarrollo de infraestructura digital y criptominería.</li>
+                               <li>Producción de hidrógeno y amoníaco verde a gran escala.</li>
+                               <li>Modernización de redes de distribución de la ANDE.</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Necesidad de flexibilidad ante riesgos de sequía (cambio climático).</li>
+                               <li>Actualización de la ley de energías renovables para atraer inversión privada.</li>
+                           </ul>
+                       `,
+                   },
+                   'Ecuador': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Crisis hídrica obliga a medidas de emergencia térmica. Regulación "fast track" para renovables privadas de 10-100 MW.</p>
+                       `,
+                   },
+                   'Costa Rica': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Plan de expansión renovable y préstamo BID de USD 200M para modernización de redes. Debate sobre apertura de mercado.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Licitaciones para modernización de infraestructura del ICE.</li>
+                               <li>Proyectos de generación distribuida y almacenamiento (con desafíos regulatorios).</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Resistencia política a la apertura total del mercado eléctrico.</li>
+                               <li>Tarifas de acceso a la red ("impuesto al sol") frenan la GD.</li>
+                           </ul>
+                       `,
+                   },
+                   'Panamá': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Avances en interconexión con Colombia. Debate ambiental sobre minería y modernización de redes. Prórroga en licitaciones de suministro.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Proyecto de modernización de redes financiado por el BEI (US$ 300M).</li>
+                               <li>Interconexión eléctrica con Colombia (HVDC).</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Impacto económico y fiscal del cierre de la mina Cobre Panamá.</li>
+                               <li>Disputas sobre rentabilidad regulada para distribuidoras.</li>
+                           </ul>
+                       `,
+                   },
+                   'Honduras': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Licitación de 1.500 MW en marcha. Incertidumbre electoral define futuro modelo energético.</p>
+                       `,
+                   },
+                   'Guyana': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Crecimiento acelerado por renta petrolera. Proyecto hidroeléctrico Amaila Falls reactivado.</p>
+                       `,
+                   },
+                   'El Salvador': {
+                       summary: `
+                           <h4 class="text-lg font-semibold mb-2 text-gray-800">Foco Principal:</h4>
+                           <p class="text-gray-700 mb-3">Nueva Ley de Fomento con exenciones fiscales para proyectos renovables.</p>
+                           <h4 class="text-lg font-semibold mb-2 text-green-700">Oportunidades:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Incentivos fiscales atractivos para autoconsumo y proyectos renovables.</li>
+                               <li>Desarrollo de energía geotérmica y solar.</li>
+                           </ul>
+                           <h4 class="text-lg font-semibold mt-3 mb-2 text-red-700">Retos:</h4>
+                           <ul class="list-disc list-inside space-y-1 text-gray-700">
+                               <li>Necesidad de regular el almacenamiento para mayor penetración solar.</li>
+                           </ul>
+                       `,
+                   }
+                }
+            };
+            
+            const createChart = (ctx, type, data, options) => new Chart(ctx, { type, data, options });
+
+            const countriesChartCtx = document.getElementById('countriesChart').getContext('2d');
+            createChart(countriesChartCtx, 'bar', {
+                labels: data.countries.map(c => c.name),
+                datasets: [{
+                    label: 'Menciones',
+                    data: data.countries.map(c => c.mentions),
+                    backgroundColor: 'rgba(37, 99, 235, 0.8)',
+                }]
+            }, {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: { 
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Menciones'
+                        }
+                    } 
+                }
+            });
+
+            const technologiesChartCtx = document.getElementById('technologiesChart').getContext('2d');
+            createChart(technologiesChartCtx, 'bar', {
+                labels: data.technologies.map(t => t.name),
+                datasets: [{
+                    label: 'Menciones',
+                    data: data.technologies.map(t => t.mentions),
+                    backgroundColor: 'rgba(2, 132, 199, 0.8)',
+                }]
+            }, {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    y: { 
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Menciones'
+                        }
+                    } 
+                }
+            });
+
+            const expansionChartCtx = document.getElementById('expansionChart').getContext('2d');
+            createChart(expansionChartCtx, 'doughnut', {
+                labels: data.expansion.map(e => e.label),
+                datasets: [{
+                    data: data.expansion.map(e => e.value),
+                    backgroundColor: ['#1d4ed8', '#1e40af', '#1e3a8a', '#172554', '#2563eb', '#3b82f6']
+                }]
+            }, { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels:{boxWidth:12} } } });
+            
+            const businessModelChartCtx = document.getElementById('businessModelChart').getContext('2d');
+            createChart(businessModelChartCtx, 'bar', {
+                labels: data.businessModels.map(b => b.label),
+                datasets: [{
+                    label: 'Menciones',
+                    data: data.businessModels.map(b => b.value),
+                    backgroundColor: 'rgba(79, 70, 229, 0.8)',
+                }]
+            }, {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: { 
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Menciones'
+                        }
+                    } 
+                }
+            });
+
+            const countrySelector = document.getElementById('countrySelector');
+            const countryDetailsContainer = document.getElementById('country-details');
+            
+            // Nombres de países tal como están en el objeto data.countries
+            const selectableCountries = data.countries.map(c => c.name);
+            
+            selectableCountries.forEach(countryName => {
+                const option = document.createElement('option');
+                option.value = countryName;
+                option.textContent = countryName;
+                countrySelector.appendChild(option);
+            });
+            
+            function updateCountryDetails(countryName) {
+                const details = data.countryDetails[countryName];
+                if (details) {
+                    countryDetailsContainer.innerHTML = `
+                        <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+                            ${details.summary}
+                        </div>
+                    `;
+                } else {
+                     countryDetailsContainer.innerHTML = `<p class="p-4 text-gray-500">No hay un resumen detallado disponible para este país.</p>`;
+                }
+            }
+
+            countrySelector.addEventListener('change', (e) => {
+                updateCountryDetails(e.target.value);
+            });
+            
+            updateCountryDetails(selectableCountries[0]);
+            
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.addEventListener('change', function() {
+                const sectionId = this.value;
+                document.querySelector(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
